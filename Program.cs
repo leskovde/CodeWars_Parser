@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
  * 'class <identifier>'
  * 
  * Method Declaration:
- * 'method <identifier> requires ([<identifier = type> <identifier = name> ...]) [returns <identifier = type>]'
+ * 'method <identifier = name> requires ([<identifier = type> <identifier = name> ...]) returns <identifier = type>'
  * 
  * Method Invocation:
  * '<identifier = name>([<value> ...])'
@@ -34,12 +34,13 @@ namespace tankLang
     {
         static void Main(string[] args)
         {
-            String code = "class HelloWorld \n method main requires() \n print \"Hello\"";
+            String code = "class HelloWorld \n method main requires() returns void \n print \"Hello\"";
             Tokenizer tokenizer = new Tokenizer(code);
             while (tokenizer.hasNextToken())
             {
                 Console.WriteLine(tokenizer.nextToken().getToken());
             }
+            Console.ReadLine();
         }
     }
 }

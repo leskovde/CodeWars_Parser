@@ -7,15 +7,16 @@ using System.Text.RegularExpressions;
 
 namespace tankLang
 {
-    class MethodParser<T> : Parser<T>
+    class MethodParser : Parser<Method>
     {
         override public bool shouldParse(String line)
         {
             return Regex.Match(line, "method [a-zA-Z][a-zA-Z0-9]* requires \\(([a-zA-Z][a-zA-Z0-9]* [a-zA-Z][a-zA-Z0-9]*)*\\) returns [a-zA-Z][a-zA-Z0-9]*").Success;
 
         }
-        public Method parse(Block superBlock, Tokenizer tokenizer)
+        override public Method parse(Block superBlock, Tokenizer tokenizer)
         {
+            mType myType;
             tokenizer.nextToken(); // skip the method token
             String name = tokenizer.nextToken().getToken();
             tokenizer.nextToken(); // skip the required token
@@ -25,7 +26,7 @@ namespace tankLang
             List<mParameter> param = new List<mParameter>();
             if (first.getToken() != ")")
             {
-                String[] paramData = new string[] { first, null }; // 0 = type, 1 = value
+                string[] paramData = new string[] { first.getToken(), null }; // 0 = type, 1 = value
                 while (tokenizer.hasNextToken())
                 {
                     Token token = tokenizer.nextToken();
@@ -40,10 +41,21 @@ namespace tankLang
                     else
                     {
                         paramData[1] = token.getToken();
-                        param.Add(new mParameter(mType.)); // 5 17:00
+
+                        Enum.TryParse(paramData[0].ToUpper(), out myType);
+                        param.Add(new mParameter(myType, paramData[1]));
+
+                        //param.Add(new mParameter(paramData[0].ToUpper(), paramData[1])); // 5 17:00
+
+                        paramData = new string[2];
                     }
                 }
             }
+
+            tokenizer.nextToken(); // skip returns token
+            Enum.TryParse(tokenizer.nextToken().getToken().ToUpper(), out myType);
+            mType returnType = myType;
+            return new Method(superBlock, name, returnType, param.ToArray());
         }
     }
 }

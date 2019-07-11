@@ -53,12 +53,11 @@ namespace tankLang
         private mType type;
         private mParameter[] param;
         private mValue returnValue;
-        public Method(Block superBlock, String name, mType type, mParameter[] param, mValue returnValue) : base(superBlock)
+        public Method(Block superBlock, String name, mType type, mParameter[] param) : base(superBlock)
         {
             this.name = name;
             this.type = type;
             this.param = param;
-            this.returnValue = returnValue;
         }
         public override void run()
         {

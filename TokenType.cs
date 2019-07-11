@@ -10,7 +10,7 @@ namespace tankLang
         EMPTY, // nothing
         TOKEN, // for example ( ) = ,
         IDENTIFIER, // first character is a letter, any proceeding characters are letters or numbers
-        INTERGER_LITERAL, // a number
+        INTEGER_LITERAL, // a number
         STRING_LITERAL // anything enclosed in double quotes
     }
 }

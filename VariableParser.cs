@@ -15,9 +15,14 @@ namespace tankLang
         {
             tokenizer.nextToken(); // skip the var token
 
-            Enum.TryParse(tokenizer.nextToken().getToken().ToUpper(), out mType type);
+            Enum.TryParse(tokenizer.nextToken().getToken().ToUpper(), out builtInType type);
 
             //mType type = mType.valueOf(tokenizer.nextToken().getToken().toUpperCase());
+
+            if(type == builtInType.VOID)
+            {
+                throw new Exception("Cannot declare variables of type void.");
+            }
 
             String name = tokenizer.nextToken().getToken();
             tokenizer.nextToken(); // skip the = token

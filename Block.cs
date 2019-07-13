@@ -23,6 +23,10 @@ namespace tankLang
         {
             return superBlock;
         }
+        public Block[] getSubBlocks()
+        {
+            return subBlocks.ToArray();
+        }
         public void addBlock(Block block)
         {
             subBlocks.Add(block);

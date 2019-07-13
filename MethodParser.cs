@@ -16,7 +16,7 @@ namespace tankLang
         }
         override public Method parse(Block superBlock, Tokenizer tokenizer)
         {
-            mType myType;
+            builtInType myType;
             tokenizer.nextToken(); // skip the method token
             String name = tokenizer.nextToken().getToken();
             tokenizer.nextToken(); // skip the required token
@@ -54,7 +54,7 @@ namespace tankLang
 
             tokenizer.nextToken(); // skip returns token
             Enum.TryParse(tokenizer.nextToken().getToken().ToUpper(), out myType);
-            mType returnType = myType;
+            builtInType returnType = myType;
             return new Method(superBlock, name, returnType, param.ToArray());
         }
     }

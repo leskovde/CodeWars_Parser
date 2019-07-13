@@ -7,22 +7,23 @@ using System.Threading.Tasks;
 namespace tankLang
 {
     // represents a variable type
-    public enum mType
+    public enum builtInType
     {
         STRING,
-        INTEGER
+        INTEGER,
+        VOID
     }
     // represents a value
     public class mValue
     {
-        private mType type;
+        private builtInType type;
         private Object value;
-        public mValue(mType type, Object value)
+        public mValue(builtInType type, Object value)
         {
             this.type = type;
             this.value = value;
         }
-        public mType getType()
+        public builtInType getType()
         {
             return type;
         }
@@ -38,22 +39,30 @@ namespace tankLang
     public class mParameter
     {
         private String name;
-        private mType type;
+        private builtInType type;
 
-        public mParameter(mType type, String name)
+        public mParameter(builtInType type, String name)
         {
             this.type = type;
             this.name = name;
+        }
+        public String getName()
+        {
+            return name;
+        }
+        public builtInType getType()
+        {
+            return type;
         }
     }
     // represents a method
     class Method : Block
     {
         private String name;
-        private mType type;
+        private builtInType type;
         private mParameter[] param;
         private mValue returnValue;
-        public Method(Block superBlock, String name, mType type, mParameter[] param) : base(superBlock)
+        public Method(Block superBlock, String name, builtInType type, mParameter[] param) : base(superBlock)
         {
             this.name = name;
             this.type = type;
@@ -63,9 +72,44 @@ namespace tankLang
         {
             invoke();
         }
-        public void invoke(params mValue[] values)
+        public mValue invoke(params mValue[] values)
         {
             // invoke the method with the supplied values
+
+            if(values.Length != param.Length)
+            {
+                throw new ArgumentException("Wrong number of values for paramateres.");
+            }
+
+            for(int i = 0; i < values.Length && i < param.Length; i++)
+            {
+                mParameter p = param[i];
+                mValue v = values[i];
+                if(p.GetType() != v.GetType())
+                {
+                    throw new Exception("Parameter " + p.getName() + " should be " + p.getType() + ". Got " + v.getType());
+                }
+                addVariable(new Variable(this, p.getType(), p.getName(), v.getValue()));
+            }
+
+            foreach(Block b in getSubBlocks())
+            {
+                b.run();
+
+                if(returnValue != null)
+                {
+                    break;
+                }
+            }
+
+            if(returnValue == null && type != builtInType.VOID)
+            {
+                throw new Exception("Expected return value, got none.");
+            }
+
+            mValue localReturnValue = returnValue;
+            returnValue = null;
+            return localReturnValue;
         }
     }
 }

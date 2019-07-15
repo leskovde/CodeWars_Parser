@@ -23,6 +23,17 @@ namespace tankLang
         override public void run()
         {
             // run main method
+            foreach (Block b in getSubBlocks())
+            {
+                if (b is Method)
+                {
+                    Method method = (Method)b;
+                    if (method.getName() == "main" && method.getType() == builtInType.VOID && method.getParameters().Length == 0)
+                    {
+                        method.run();
+                    }
+                }
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace tankLang
             this.str = str;
             this.tokenDatas = new List<TokenData>();
             tokenDatas.Add(new TokenData(new Regex("^([a-zA-Z][a-zA-Z0-9]*)"), TokenType.IDENTIFIER));
-            tokenDatas.Add(new TokenData(new Regex("^((-)?[0-9]+)"), TokenType.INTERGER_LITERAL));
+            tokenDatas.Add(new TokenData(new Regex("^((-)?[0-9]+)"), TokenType.INTEGER_LITERAL));
             tokenDatas.Add(new TokenData(new Regex("^(\".*\")"), TokenType.STRING_LITERAL));
 
             String[] Tokens = { "=", "\\(", "\\)", "\\.", "\\," };

@@ -11,7 +11,8 @@ namespace tankLang
     {
         override public bool shouldParse(String line)
         {
-            return Regex.Match(line, "method [a-zA-Z][a-zA-Z0-9]* requires \\(([a-zA-Z][a-zA-Z0-9]* [a-zA-Z][a-zA-Z0-9]*)*\\) returns [a-zA-Z][a-zA-Z0-9]*").Success;
+            //return Regex.Match(line, "method [a-zA-Z][a-zA-Z0-9]* requires \\(([a-zA-Z][a-zA-Z0-9]* [a-zA-Z][a-zA-Z0-9]*)*\\) returns [a-zA-Z][a-zA-Z0-9]*").Success;
+            return Regex.Match(line, "method [a-zA-Z][a-zA-Z0-9]* requires \\((.*.)?\\) returns [a-zA-Z][a-zA-Z0-9]*").Success;
 
         }
         override public Method parse(Block superBlock, Tokenizer tokenizer)

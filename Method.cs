@@ -68,6 +68,18 @@ namespace tankLang
             this.type = type;
             this.param = param;
         }
+        public String getName()
+        {
+            return name;
+        }
+        public builtInType getType()
+        {
+            return type;
+        }
+        public mParameter[] getParameters()
+        {
+            return param;
+        }
         public override void run()
         {
             invoke();
@@ -75,6 +87,8 @@ namespace tankLang
         public mValue invoke(params mValue[] values)
         {
             // invoke the method with the supplied values
+
+            Console.WriteLine("Invoking method named " + name + " of type " + type + " with params " + param.ToString());
 
             if(values.Length != param.Length)
             {

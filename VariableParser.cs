@@ -9,7 +9,7 @@ namespace tankLang
     {
         override public bool shouldParse(String line)
         {
-            return Regex.Match(line, "var [a-zA-Z]+[a-zA-Z0-9]+ = \"?[a-zA-Z0-9]\"?").Success;
+            return Regex.Match(line, "var [a-zA-Z]+ [a-zA-Z0-9]+ = (\")?.*.(\")?").Success;
         }
         override public Block parse(Block superBlock, Tokenizer tokenizer)
         {

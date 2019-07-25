@@ -41,7 +41,11 @@ namespace tankLang
             bool success;
 
 
-            String code = "class HelloWorld \n method main requires () returns void";
+            String code = "class Variables \n " +
+                         "method main requires () returns void \n " +
+                         "var string str = \"Hello world!\" \n" +
+                            "method printString requires (string str) returns void \n ";
+
             /*while (tokenizer.hasNextToken())
             {
                 Console.WriteLine(tokenizer.nextToken().getToken());
@@ -59,25 +63,67 @@ namespace tankLang
                 
                 if(cParser.shouldParse(cLine))
                 {
-                    block = cParser.parse(block, tokenizer);
+                    Block newBlock = cParser.parse(block, tokenizer);
+
+                    if (newBlock is Class)
+                    {
+                        classes.Add((Class)block);
+                    }
+                    else
+                    {
+                        block.addBlock(newBlock);
+                    }
+
+                    block = newBlock;
+                    success = true;
+
+
+                    /*block = cParser.parse(block, tokenizer);
                     success = true;
                     if(block is Class)
                     {
                         classes.Add((Class)block);
-                    }
+                    }*/
                 }
                 else if (mParser.shouldParse(cLine))
                 {
                     //block = mParser.parse(block, tokenizer);
-                    Block newBlock = mParser.parse(block, tokenizer);
+                    /*Block newBlock = mParser.parse(block, tokenizer);
                     success = true;
                     block.addBlock(newBlock);
-                    block = newBlock;
+                    block = newBlock;*/
 
+                    Block newBlock = mParser.parse(block, tokenizer);
+
+                    if (newBlock is Class)
+                    {
+                        classes.Add((Class)block);
+                    }
+                    else
+                    {
+                        block.addBlock(newBlock);
+                    }
+
+                    block = newBlock;
+                    success = true;
                 }
                 else if (vParser.shouldParse(cLine))
                 {
-                    block = vParser.parse(block, tokenizer);
+                    /*block = vParser.parse(block, tokenizer);
+                    success = true;*/
+
+                    Block newBlock = vParser.parse(block, tokenizer);
+
+                    if (newBlock is Class)
+                    {
+                        classes.Add((Class)block);
+                    }
+                    else
+                    {
+                        block.addBlock(newBlock);
+                    }
+
+                    block = newBlock;
                     success = true;
                 }
 

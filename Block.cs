@@ -19,6 +19,21 @@ namespace tankLang
             this.subBlocks = new List<Block>();
             this.variables = new List<Variable>();
         }
+        public List<Block> getBlockTree()
+        {
+            List<Block> blocks = new List<Block>();
+
+            Block block = this;
+
+            do
+            {
+                blocks.Add(block);
+                block = block.getSuperBlock();
+            } while (block != null);
+
+            blocks.Reverse();
+            return blocks;
+        }
         public Block getSuperBlock()
         {
             return superBlock;

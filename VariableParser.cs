@@ -43,8 +43,12 @@ namespace tankLang
                 value = superBlock.getVariable(v.getToken()).getValue();
             }
             // add this variable to the block
-            superBlock.addVariable(new Variable(superBlock, type, name, value));
-            return null;
+
+            /*superBlock.addVariable(new Variable(superBlock, type, name, value));
+            return null;*/
+
+            //Enum.TryParse(type, out builtInType myType);
+            return new VariableBlock(superBlock, type.ToString(), name, value);
         }
     }
 }

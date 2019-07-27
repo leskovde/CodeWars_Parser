@@ -41,10 +41,19 @@ namespace tankLang
             bool success;
 
 
-            String code = "class Variables \n " +
-                         "method main requires () returns void \n " +
-                         "var string str = \"Hello world!\" \n" +
-                            "method printString requires (string str) returns void \n ";
+            /* String code = "class Variables \n " +
+                          "method main requires () returns void \n " +
+                          "var string str = \"Hello world!\" \n" +
+                             "method printString requires (string str) returns void "; */
+
+            String code = "class Variables \n" +
+                "method main requires () returns void \n " +
+                "var string str = getString ()\n" +
+                "printString (str)\n" +
+                "method printString requires (string str) returns void \n " +
+                "print str \n" +
+                "method getString requires () returns string\n" +
+                "return \"Hello\"";
 
             /*while (tokenizer.hasNextToken())
             {
@@ -67,7 +76,11 @@ namespace tankLang
 
                     if (newBlock is Class)
                     {
-                        classes.Add((Class)block);
+                        classes.Add((Class)newBlock);
+                    }
+                    else if (newBlock is Method)
+                    {
+                        block.getBlockTree()[0].addBlock(newBlock);
                     }
                     else
                     {
@@ -99,6 +112,10 @@ namespace tankLang
                     {
                         classes.Add((Class)block);
                     }
+                    else if (newBlock is Method)
+                    {
+                        block.getBlockTree()[0].addBlock(newBlock);
+                    }
                     else
                     {
                         block.addBlock(newBlock);
@@ -118,12 +135,16 @@ namespace tankLang
                     {
                         classes.Add((Class)block);
                     }
+                    else if (newBlock is Method)
+                    {
+                        block.getBlockTree()[0].addBlock(newBlock);
+                    }
                     else
                     {
                         block.addBlock(newBlock);
                     }
 
-                    block = newBlock;
+                    //block = newBlock;
                     success = true;
                 }
 
@@ -136,10 +157,27 @@ namespace tankLang
             {
                 foreach(Block b in c.getSubBlocks())
                 {
+
+                    Method refMethod = new Method(null, "", builtInType.INTEGER, null);
+                    Type refClass = refMethod.GetType();
+                    Type testClass = b.GetType();
+                    if(refClass.Equals(testClass))
+                        Console.WriteLine("Found block of type Method");
+
                     if(b is Method)
                     {
                         Method method = (Method)b;
-                        if(method.getName() == "main" && method.getType() == builtInType.VOID && method.getParameters().Length == 0)
+
+                        Console.WriteLine(method.getName());
+                        Console.WriteLine(method.getType());
+                        Array arr = method.getParameters();
+                        foreach(var item in arr)
+                        {
+                            Console.WriteLine(item.ToString());
+                        }
+                        Console.WriteLine();
+
+                        if (method.getName() == "main" && method.getType() == builtInType.VOID && method.getParameters().Length == 0)
                         {
                             main = c;
                         }
